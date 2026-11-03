@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gym Exercise Selector</title>
+</head>
+<body>
+
+    <h2>Select Your Gym Exercise</h2>
+
+    <label for="exercise">Choose an exercise:</label>
+
+    <select id="exercise" name="exercise">
+        <option value="">-- Select Exercise --</option>
+        <option value="leg-press">Leg Press</option>
+        <option value="pull-ups">Pull Ups</option>
+        <option value="bench-press">Bench Press</option>
+        <option value="squats">Squats</option>
+        <option value="shoulder-press">Shoulder Press</option>
+        <option value="lat-pulldown">Lat Pulldown</option>
+        <option value="deadlift">Deadlift</option>
+        <option value="lunges">Lunges</option>
+        <option value="bicep-curls">Bicep Curls</option>
+        <option value="tricep-pushdown">Tricep Pushdown</option>
+        <option value="chest-fly">Chest Fly</option>
+        <option value="dumbbell-rows">Dumbbell Rows</option>
+        <option value="leg-extension">Leg Extension</option>
+        <option value="leg-curl">Leg Curl</option>
+        <option value="calf-raises">Calf Raises</option>
+        <option value="lateral-raises">Lateral Raises</option>
+        <option value="front-raises">Front Raises</option>
+        <option value="plank">Plank</option>
+        <option value="crunches">Crunches</option>
+        <option value="push-ups">Push Ups</option>
+    </select>
+
+    <button onclick="showExercise()">Select</button>
+
+    <p id="result"></p>
+
+    <script>
+        function showExercise() {
+            let exercise = document.getElementById("exercise").value;
+
+            if (exercise === "") {
+                document.getElementById("result").innerHTML =
+                    "Please select an exercise!";
+            } else {
+                document.getElementById("result").innerHTML =
+                    "You selected: " +
+                    exercise.replace("-", " ").toUpperCase();
+            }
+        }
+    </script>
+
+</body>
+</html>
