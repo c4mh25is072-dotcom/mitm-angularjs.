@@ -1,42 +1,356 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Gym Exercise Selector</title>
-</head>
-<body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <h2>Select Your Gym Exercise</h2>
+    <title>Student Management System</title>
 
-    <label for="exercise">Choose an exercise:</label>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-    <select id="exercise" name="exercise">
-        <option value="">-- Select Exercise --</option>
-        <option value="leg-press">Leg Press</option>
-        <option value="pull-ups">Pull Ups</option>
-        <option value="bench-press">Bench Press</option>
-        <option value="squats">Squats</option>
-        <option value="shoulder-press">Shoulder Press</option>
-        <option value="lat-pulldown">Lat Pulldown</option>
-    </select>
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+            padding: 30px;
+        }
 
-    <button onclick="showExercise()">Select</button>
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
 
-    <p id="result"></p>
+        header {
+            background: #2563eb;
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
 
-    <script>
-        function showExercise() {
-            let exercise = document.getElementById("exercise").value;
+        header h1 {
+            margin-bottom: 8px;
+        }
 
-            if (exercise === "") {
-                document.getElementById("result").innerHTML =
-                    "Please select an exercise!";
-            } else {
-                document.getElementById("result").innerHTML =
-                    "You selected: " + exercise.replace("-", " ").toUpperCase();
+        header p {
+            color: #dbeafe;
+        }
+
+        h2 {
+            margin-bottom: 18px;
+            color: #1e293b;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        /* STATISTICS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            border-top: 4px solid #2563eb;
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .stat-card p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        /* FORM */
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px #dbeafe;
+        }
+
+        button {
+            padding: 11px 17px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        #submitBtn {
+            background: #2563eb;
+            color: white;
+        }
+
+        #submitBtn:hover {
+            background: #1d4ed8;
+        }
+
+        #cancelBtn {
+            background: #64748b;
+            color: white;
+        }
+
+        /* SEARCH */
+
+        .search-box {
+            margin-bottom: 18px;
+        }
+
+        .search-box input {
+            max-width: 400px;
+        }
+
+        /* TABLE */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th {
+            background: #eff6ff;
+            color: #1e40af;
+            padding: 15px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 14px 15px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        td button {
+            margin: 3px;
+            color: white;
+        }
+
+        td button:first-child {
+            background: #0d9488;
+        }
+
+        td button:last-child {
+            background: #ef4444;
+        }
+
+        td button:first-child:hover {
+            background: #0f766e;
+        }
+
+        td button:last-child:hover {
+            background: #dc2626;
+        }
+
+        #noRecords {
+            text-align: center;
+            color: #64748b;
+            padding: 20px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
-    </script>
+
+        @media (max-width: 550px) {
+            body {
+                padding: 15px;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            header h1 {
+                font-size: 23px;
+            }
+
+            .section {
+                padding: 18px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Student Management Dashboard</h1>
+        <p>Manage student registrations and academic records easily.</p>
+    </header>
+
+    <!-- STATISTICS -->
+
+    <h2>Student Statistics</h2>
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <h3>Total Students</h3>
+            <p id="total">0</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>CSE Students</h3>
+            <p id="cseCount">0</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>ECE Students</h3>
+            <p id="eceCount">0</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>ME Students</h3>
+            <p id="meCount">0</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>CIVIL Students</h3>
+            <p id="civilCount">0</p>
+        </div>
+
+    </div>
+
+    <!-- REGISTRATION FORM -->
+
+    <div class="section">
+
+        <h2 id="formTitle">Register Student</h2>
+
+        <form id="studentForm">
+
+            <input type="text" id="name"
+                placeholder="Student Name" required>
+
+            <input type="text" id="usn"
+                placeholder="USN" required>
+
+            <input type="email" id="email"
+                placeholder="Email Address" required>
+
+            <select id="department" required>
+                <option value="">Select Department</option>
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="ME">ME</option>
+                <option value="CIVIL">CIVIL</option>
+            </select>
+
+            <button type="submit" id="submitBtn">
+                Add Student
+            </button>
+
+            <button type="button" id="cancelBtn" hidden>
+                Cancel
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- STUDENT RECORDS -->
+
+    <div class="section">
+
+        <h2>Student Records</h2>
+
+        <div class="search-box">
+            <input type="text" id="search"
+                placeholder="Search by name, USN, email or department...">
+        </div>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>USN</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentList"></tbody>
+
+            </table>
+
+        </div>
+
+        <p id="noRecords" hidden>
+            No student records found.
+        </p>
+
+    </div>
+
+</div>
+
+<script src="app.js"></script>
 
 </body>
 </html>
